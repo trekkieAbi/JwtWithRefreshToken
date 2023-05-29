@@ -23,21 +23,24 @@ public class JwtUtils {
     @Value("${trekkieAbi.app.jwtExpirationMs}")
     private int jwtExpirationMs;
 
-    public String generateJwtToken(Authentication authentication) {
-
-        UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
-
-        return Jwts.builder()
-                .setSubject((userPrincipal.getUsername()))
-                .setIssuedAt(new Date())
-                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
-                .signWith(key(), SignatureAlgorithm.HS256)
-                .compact();
+    public String generateJwtToken(UserDetailsImpl userDetails) {
+        return generateTokenFromUsername(userDetails.getUsername());
     }
 
     private Key key() {
         return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
     }
+
+
+    public String generateTokenFromUsername(String username){
+        return Jwts.builder().setSubject(username)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date((new Date()).getTime()+jwtExpirationMs))
+                .signWith(SignatureAlgorithm.HS512,jwtSecret)
+                .compact();
+
+    }
+
 
     public String getUserNameFromJwtToken(String token) {
         return Jwts.parserBuilder().setSigningKey(key()).build()
@@ -60,4 +63,6 @@ public class JwtUtils {
 
         return false;
     }
+
+
 }

@@ -1,4 +1,4 @@
-package com.refresh.token.payloads;
+package com.refresh.token.payloads.response;
 
 public class MessageResponse {
     private String message;

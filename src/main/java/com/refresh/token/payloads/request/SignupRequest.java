@@ -1,4 +1,4 @@
-package com.refresh.token.payloads;
+package com.refresh.token.payloads.request;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
