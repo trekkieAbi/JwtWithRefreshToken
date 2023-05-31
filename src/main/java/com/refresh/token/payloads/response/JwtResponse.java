@@ -24,4 +24,10 @@ public class JwtResponse {
         this.roles = roles;
     }
 
+    public JwtResponse(Long id, String username, String email, List<String> roles) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.roles = roles;
+    }
 }
